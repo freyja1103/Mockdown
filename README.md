@@ -101,8 +101,8 @@ Paste this into Claude Code → working page. First try.
 ## run locally
 
 ```bash
-npm ci
-npm run dev
+pnpm i
+pnpm dev
 ```
 
 open `http://localhost:3000`
