@@ -35,13 +35,13 @@ const MAX_EXISTING_CONTENT = 60_000;
 const MAX_BODY_SIZE = 65_000; // rough cap on total request body
 
 const MODELS: Record<string, string> = {
-  fast: 'google/gemini-2.5-flash',
-  quality: 'minimax/minimax-m2.5',
+  fast: process.env.AI_MODEL ?? "",
+  quality: process.env.AI_QUALITY_MODEL ?? process.env.AI_MODEL ?? "",
 };
 
-const openrouter = createOpenAI({
-  baseURL: 'https://openrouter.ai/api/v1',
-  apiKey: process.env.OPENROUTER_API_KEY ?? '',
+const aiProvider = createOpenAI({
+  baseURL: process.env.AI_BASE_URL ?? '',
+  apiKey: process.env.AI_API_KEY  ?? '',
   headers: {
     'HTTP-Referer': siteUrl,
     'X-Title': 'ASCII Wireframe Editor',
@@ -276,9 +276,20 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const apiKey = process.env.OPENROUTER_API_KEY;
+  
+  const baseUrl = process.env.AI_BASE_URL;
+  if (!baseUrl) {
+    return NextResponse.json({ error: 'AI_BASE_URL not configured' }, { status: 500 });
+  }
+  
+  const model = process.env.AI_MODEL;
+  if (!model) {
+    return NextResponse.json({ error: 'AI_MODEL not configured' }, { status: 500 });
+  }
+
+  const apiKey = process.env.AI_API_KEY;
   if (!apiKey) {
-    return NextResponse.json({ error: 'OPENROUTER_API_KEY not configured' }, { status: 500 });
+    return NextResponse.json({ error: 'AI_API_KEY not configured' }, { status: 500 });
   }
 
   const raw = await req.text();
@@ -319,7 +330,7 @@ export async function POST(req: NextRequest) {
       : `${prompt}\n\nArea size: ${w} columns × ${h} rows. Output a JSON array of UI components.`;
 
     const result = streamObject({
-      model: openrouter(modelId),
+      model: aiProvider.chat(modelId),
       system: NODES_SYSTEM_PROMPT,
       prompt: nodesPrompt,
       output: 'array',
@@ -340,7 +351,7 @@ export async function POST(req: NextRequest) {
   }
 
   const result = streamText({
-    model: openrouter(modelId),
+    model: aiProvider.chat(modelId),
     system: SYSTEM_PROMPT,
     prompt: userPrompt,
     temperature: 0.7,
