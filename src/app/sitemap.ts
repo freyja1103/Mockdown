@@ -1,15 +1,16 @@
 import type { MetadataRoute } from 'next';
+import { absoluteUrl } from '@/lib/site-url';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: 'https://www.mockdown.design',
+      url: absoluteUrl('/'),
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: 'https://www.mockdown.design/about',
+      url: absoluteUrl('/about'),
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,

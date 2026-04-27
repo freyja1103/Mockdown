@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { siteUrl } from '@/lib/site-url';
 import './globals.css';
 
 export const viewport: Viewport = {
@@ -11,7 +12,7 @@ const siteDescription =
   'Free browser-based ASCII wireframe editor. Design UI mockups, lo-fi prototypes, and text diagrams with drag-and-drop components — no signup required.';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.mockdown.design'),
+  metadataBase: new URL(siteUrl),
   title: siteTitle,
   description: siteDescription,
   applicationName: 'Mockdown',
@@ -52,7 +53,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
   name: 'Mockdown',
-  url: 'https://www.mockdown.design',
+  url: siteUrl,
   description: siteDescription,
   applicationCategory: 'DesignApplication',
   operatingSystem: 'Any',

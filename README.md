@@ -108,6 +108,7 @@ pnpm dev
 open `http://localhost:3000`
 
 for the magic tool, add `OPENROUTER_API_KEY` to `.env.local`.
+set `NEXT_PUBLIC_SITE_URL` to override canonical URLs, sitemap URLs, and the OpenRouter referer.
 
 ## stack
 

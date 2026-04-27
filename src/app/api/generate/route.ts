@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { streamText, streamObject } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
 import { wireframeNodeSchema } from '@/lib/scene/ai-schema';
+import { siteUrl } from '@/lib/site-url';
 
 // ─── Rate limiter (in-memory, per IP) ──────────────────────────────────────
 const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
@@ -42,7 +43,7 @@ const openrouter = createOpenAI({
   baseURL: 'https://openrouter.ai/api/v1',
   apiKey: process.env.OPENROUTER_API_KEY ?? '',
   headers: {
-    'HTTP-Referer': 'https://ascii-wireframe-editor.app',
+    'HTTP-Referer': siteUrl,
     'X-Title': 'ASCII Wireframe Editor',
   },
 });
