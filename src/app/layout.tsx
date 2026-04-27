@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import Script from 'next/script';
 import './globals.css';
 
 export const viewport: Viewport = {
@@ -76,11 +75,6 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <Script
-          defer
-          src="https://cloud.umami.is/script.js"
-          data-website-id="97036071-936c-4ba5-a66b-5eff9c60b757"
         />
         {children}
       </body>
