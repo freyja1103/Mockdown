@@ -5,7 +5,7 @@ const eslintConfig = defineConfig([
     "dist/**",
     ".vite/**",
     "node_modules/**",
-    "app/pages.gen.ts",
+    "src/app/pages.gen.ts",
   ]),
 ]);
 

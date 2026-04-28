@@ -19,13 +19,13 @@ export default defineConfig({
   },
   plugins: [
     inertiaPages({
-      pagesDir: 'app/pages',
-      outFile: 'app/pages.gen.ts',
+      pagesDir: 'src/app/pages',
+      outFile: 'src/app/pages.gen.ts',
       serverModule: './server',
     }),
     react(),
     devServer({
-      entry: 'app/server.ts',
+      entry: 'src/app/server.ts',
     }),
     ssrPlugin(),
   ],
