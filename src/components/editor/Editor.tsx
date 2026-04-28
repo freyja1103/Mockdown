@@ -11,7 +11,11 @@ import { useEditorStore } from '@/hooks/use-editor-store';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
-export function Editor() {
+type EditorProps = {
+  generateEndpoint: string;
+};
+
+export function Editor({ generateEndpoint }: EditorProps) {
   useKeyboard();
   const theme = useEditorStore((s) => s.theme);
   const toggleTheme = useEditorStore((s) => s.toggleTheme);
@@ -38,7 +42,7 @@ export function Editor() {
         </div>
 
         <div className="flex flex-col flex-1 min-w-0">
-          <Grid />
+          <Grid generateEndpoint={generateEndpoint} />
           <StatusBar />
           {/* Spacer so grid content isn't hidden behind mobile bottom bar */}
           <div

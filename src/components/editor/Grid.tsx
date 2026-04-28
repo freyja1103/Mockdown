@@ -7,7 +7,11 @@ import { useEditorStore } from '@/hooks/use-editor-store';
 import { GeneratePrompt } from './GeneratePrompt';
 import { hitTestCornerHandle, isInsideNodeBounds } from '@/lib/scene/hit-test';
 
-export function Grid() {
+type GridProps = {
+  generateEndpoint: string;
+};
+
+export function Grid({ generateEndpoint }: GridProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { canvasRef, cellSize, scale } = useCanvasRenderer(containerRef);
   const { handlePointerDown, handlePointerMove, handlePointerUp, handlePointerLeave, handlePointerCancel, handleDoubleClick } = useGridMouse(
@@ -122,7 +126,7 @@ export function Grid() {
           onDoubleClick={handleDoubleClick}
         />
       </div>
-      <GeneratePrompt />
+      <GeneratePrompt generateEndpoint={generateEndpoint} />
     </div>
   );
 }

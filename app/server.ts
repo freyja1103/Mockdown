@@ -23,6 +23,7 @@ const routes = app
       metaTitle: siteTitle,
       metaDescription: siteDescription,
       canonicalPath: '/',
+      generateEndpoint: '/api/generate',
     }),
   )
   .get('/about', (c) =>

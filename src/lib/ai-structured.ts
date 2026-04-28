@@ -12,11 +12,12 @@ export async function streamGenerateNodes(
   width: number,
   height: number,
   onNode: (node: NewNodeData) => void,
+  endpoint: string,
   existingContent?: string,
   signal?: AbortSignal,
   mode: 'fast' | 'quality' = 'fast',
 ): Promise<NewNodeData[]> {
-  const res = await fetch('/api/generate', {
+  const res = await fetch(endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ prompt, width, height, existingContent, mode, responseFormat: 'nodes' }),

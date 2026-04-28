@@ -45,7 +45,11 @@ const CONTENT_SUGGESTIONS = [
 // All empty suggestions are UI prompts → always use structured mode
 const STRUCTURED_SUGGESTIONS = new Set(EMPTY_SUGGESTIONS);
 
-export function GeneratePrompt() {
+type GeneratePromptProps = {
+  generateEndpoint: string;
+};
+
+export function GeneratePrompt({ generateEndpoint }: GeneratePromptProps) {
   const generateSelection = useEditorStore((s) => s.generateSelection);
   const generateLoading = useEditorStore((s) => s.generateLoading);
   const setGenerateLoading = useEditorStore((s) => s.setGenerateLoading);
@@ -141,6 +145,7 @@ export function GeneratePrompt() {
           const id = addNode(offsetNode);
           createdIds.push(id);
         },
+        generateEndpoint,
         hasContent ? existingContent : undefined,
         abortRef.current.signal,
         generateMode,
@@ -194,6 +199,7 @@ export function GeneratePrompt() {
           }
           setCharsRaw(lineChars);
         },
+        generateEndpoint,
         hasContent ? existingContent : undefined,
         abortRef.current.signal,
         generateMode,

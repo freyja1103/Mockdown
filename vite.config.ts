@@ -25,7 +25,7 @@ export default defineConfig({
     }),
     react(),
     devServer({
-      entry: 'app/server.tsx',
+      entry: 'app/server.ts',
     }),
     ssrPlugin(),
   ],
