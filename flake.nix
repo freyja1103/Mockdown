@@ -18,8 +18,8 @@
           git
           gh
           nodejs
-          pnpm
           opencode
+          pnpm
         ];
         buildInputs = [
           codex-cli-nix.packages.${system}.default
