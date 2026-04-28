@@ -1,0 +1,562 @@
+import type { ReactNode } from 'react';
+
+/* ── tiny wireframe primitives ── */
+
+const B = '#2979FF'; // brand blue
+
+
+function WireCard({
+  title,
+  children,
+  className = '',
+}: {
+  title?: string;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`border ${className}`} style={{ borderColor: B }}>
+      {title && (
+        <>
+          <div
+            className="px-4 py-2 text-sm font-bold"
+            style={{ color: B }}
+          >
+            {title}
+          </div>
+          <div className="border-t" style={{ borderColor: B }} />
+        </>
+      )}
+      <div className="px-4 py-4">{children}</div>
+    </div>
+  );
+}
+
+function WireBox({
+  children,
+  className = '',
+  dashed = false,
+}: {
+  children: ReactNode;
+  className?: string;
+  dashed?: boolean;
+}) {
+  return (
+    <div
+      className={`border ${dashed ? 'border-dashed' : ''} ${className}`}
+      style={{ borderColor: B }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function WireButton({
+  children,
+  href,
+}: {
+  children: ReactNode;
+  href?: string;
+}) {
+  const cls =
+    'inline-block border px-4 py-2 text-sm font-bold transition-colors hover:bg-[#2979FF] hover:text-white';
+  if (href) {
+    return (
+      <a href={href} className={cls} style={{ borderColor: B, color: B }}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <span className={cls} style={{ borderColor: B, color: B }}>
+      {children}
+    </span>
+  );
+}
+
+function WireInput({ placeholder }: { placeholder: string }) {
+  return (
+    <div
+      className="border-b border-dashed px-1 py-1 text-sm"
+      style={{ borderColor: B, color: B }}
+    >
+      {placeholder}
+    </div>
+  );
+}
+
+function WireNav() {
+  return (
+    <div className="border-b" style={{ borderColor: B }}>
+      <div className="max-w-4xl mx-auto flex items-center justify-between px-6 py-3">
+        <a
+          href="/"
+          className="font-bold text-base"
+          style={{ color: B }}
+        >
+          Mockdown
+        </a>
+        <div className="flex items-center gap-6">
+          <span className="text-sm hidden sm:inline" style={{ color: B }}>
+            About
+          </span>
+          <WireButton href="/">Open Editor</WireButton>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function WireTable({
+  columns,
+  rows,
+}: {
+  columns: string[];
+  rows: string[][];
+}) {
+  return (
+    <div className="border overflow-x-auto" style={{ borderColor: B }}>
+      <div
+        className="grid border-b"
+        style={{
+          gridTemplateColumns: `repeat(${columns.length}, 1fr)`,
+          borderColor: B,
+        }}
+      >
+        {columns.map((col, i) => (
+          <div
+            key={col}
+            className={`px-3 py-2 text-sm font-bold ${i > 0 ? 'border-l' : ''}`}
+            style={{ color: B, borderColor: B }}
+          >
+            {col}
+          </div>
+        ))}
+      </div>
+      {rows.map((row, ri) => (
+        <div
+          key={ri}
+          className={`grid ${ri > 0 ? 'border-t' : ''}`}
+          style={{
+            gridTemplateColumns: `repeat(${columns.length}, 1fr)`,
+            borderColor: B,
+          }}
+        >
+          {row.map((cell, ci) => (
+            <div
+              key={ci}
+              className={`px-3 py-2 text-sm ${ci > 0 ? 'border-l' : ''}`}
+              style={{ color: B, borderColor: B }}
+            >
+              {cell}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ── page ── */
+
+export default function AboutPage() {
+  return (
+    <main
+      className="min-h-screen font-mono"
+      style={{
+        backgroundColor: '#ffffff',
+        color: B,
+      }}
+    >
+      <WireNav />
+
+      <div className="max-w-4xl mx-auto px-6 py-12 space-y-10">
+        {/* ── Hero: Dialog wireframe ── */}
+        <WireCard title="Mockdown">
+          <div className="space-y-4">
+            <h1
+              className="text-2xl md:text-3xl font-bold leading-tight"
+              style={{ color: B }}
+            >
+              Wireframes that live in plain text.
+            </h1>
+            <p className="text-sm leading-relaxed max-w-lg" style={{ color: B }}>
+              Sketch a UI in minutes, export as Markdown, paste into
+              Claude Code or Cursor. AI reads a wireframe faster than
+              your explanation. 20+ components, zero setup.
+            </p>
+            <div className="flex gap-3 pt-2">
+              <WireButton href="/">Open Editor</WireButton>
+              <WireButton href="#components">See Components</WireButton>
+            </div>
+          </div>
+        </WireCard>
+
+        {/* ── AI-first ── */}
+        <WireCard title="Built for AI-assisted coding">
+          <div className="space-y-3 text-sm leading-relaxed" style={{ color: B }}>
+            <p>
+              AI reads Markdown better than it reads your explanations.
+              Instead of describing a layout for ten minutes — &quot;put a
+              search bar on the left, a table below, pagination at the
+              bottom&quot; — you paste a wireframe. The AI builds it.
+            </p>
+            <p>
+              Mockdown exports clean Markdown that tools like Claude Code,
+              Cursor, and Copilot understand on the first try. One wireframe
+              replaces a page of instructions.
+            </p>
+            <p>
+              Sketch the screen in Mockdown. Copy. Paste into your AI
+              coding tool. Get working code back.
+            </p>
+          </div>
+        </WireCard>
+
+        {/* ── Why: Split panel ── */}
+        <div className="grid md:grid-cols-2 gap-px">
+          <WireCard title="Why plain text?">
+            <div className="space-y-3 text-sm leading-relaxed" style={{ color: B }}>
+              <p>
+                Paste your mockup in a GitHub issue. Drop it in Slack.
+                Commit it with your code.
+              </p>
+              <p>
+                No screenshots. No broken image links.
+                No &quot;can you export that as PNG?&quot;
+              </p>
+            </div>
+          </WireCard>
+
+          <WireCard title="Why lo-fi?">
+            <div className="space-y-3 text-sm leading-relaxed" style={{ color: B }}>
+              <p>
+                Text wireframes keep the conversation on structure, not color.
+              </p>
+              <p>
+                Feedback comes faster when there&apos;s nothing to polish.
+                Five layout options in ten minutes.
+              </p>
+            </div>
+          </WireCard>
+        </div>
+
+        {/* ── Components showcase ── */}
+        <section id="components">
+          <WireCard title="Component Library — 20+ built-in elements">
+            <p className="text-xs mb-6" style={{ color: B }}>
+              Every component below is built into Mockdown. Drag to place, double-click to edit.
+            </p>
+
+            {/* Form controls row */}
+            <div className="space-y-6">
+              <div>
+                <div
+                  className="text-xs font-bold uppercase tracking-widest mb-3"
+                  style={{ color: B }}
+                >
+                  Form controls
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <WireBox className="p-3 text-center">
+                    <div className="text-xs mb-2" style={{ color: B }}>Button</div>
+                    <WireButton>Submit</WireButton>
+                  </WireBox>
+                  <WireBox className="p-3">
+                    <div className="text-xs mb-2" style={{ color: B }}>Input</div>
+                    <WireInput placeholder="Enter text..." />
+                  </WireBox>
+                  <WireBox className="p-3">
+                    <div className="text-xs mb-2" style={{ color: B }}>Dropdown</div>
+                    <div
+                      className="border px-2 py-1 text-sm flex justify-between"
+                      style={{ borderColor: B, color: B }}
+                    >
+                      <span>Select</span>
+                      <span>▾</span>
+                    </div>
+                  </WireBox>
+                  <WireBox className="p-3">
+                    <div className="text-xs mb-2" style={{ color: B }}>Search</div>
+                    <div
+                      className="border px-2 py-1 text-sm"
+                      style={{ borderColor: B, color: B }}
+                    >
+                      / Search...
+                    </div>
+                  </WireBox>
+                </div>
+              </div>
+
+              {/* Toggles row */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <WireBox className="p-3">
+                  <div className="text-xs mb-2" style={{ color: B }}>Checkbox</div>
+                  <div className="space-y-1 text-sm" style={{ color: B }}>
+                    <div>☑ Enabled</div>
+                    <div>☐ Disabled</div>
+                  </div>
+                </WireBox>
+                <WireBox className="p-3">
+                  <div className="text-xs mb-2" style={{ color: B }}>Radio</div>
+                  <div className="space-y-1 text-sm" style={{ color: B }}>
+                    <div>● Option A</div>
+                    <div>○ Option B</div>
+                  </div>
+                </WireBox>
+                <WireBox className="p-3">
+                  <div className="text-xs mb-2" style={{ color: B }}>Toggle</div>
+                  <div className="text-sm" style={{ color: B }}>
+                    [━●] On
+                  </div>
+                </WireBox>
+                <WireBox className="p-3">
+                  <div className="text-xs mb-2" style={{ color: B }}>Progress</div>
+                  <div className="text-sm" style={{ color: B }}>
+                    [████░░░░] 50%
+                  </div>
+                </WireBox>
+              </div>
+
+              {/* Navigation components */}
+              <div>
+                <div
+                  className="text-xs font-bold uppercase tracking-widest mb-3"
+                  style={{ color: B }}
+                >
+                  Navigation
+                </div>
+                <div className="space-y-3">
+                  <WireBox className="p-3">
+                    <div className="text-xs mb-2" style={{ color: B }}>Nav Bar</div>
+                    <div className="flex items-center gap-4 text-sm" style={{ color: B }}>
+                      <span className="font-bold" style={{ color: B }}>Logo</span>
+                      <span>Link</span>
+                      <span>Link</span>
+                      <span>Link</span>
+                      <span className="ml-auto">
+                        <WireButton>Action</WireButton>
+                      </span>
+                    </div>
+                  </WireBox>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <WireBox className="p-3">
+                      <div className="text-xs mb-2" style={{ color: B }}>Tabs</div>
+                      <div className="flex gap-2 text-sm" style={{ color: B }}>
+                        <span
+                          className="border-b-2 pb-0.5"
+                          style={{ borderColor: B, color: B }}
+                        >
+                          Active
+                        </span>
+                        <span className="pb-0.5">Tab 2</span>
+                        <span className="pb-0.5">Tab 3</span>
+                      </div>
+                    </WireBox>
+                    <WireBox className="p-3">
+                      <div className="text-xs mb-2" style={{ color: B }}>Breadcrumb</div>
+                      <div className="text-sm" style={{ color: B }}>
+                        Home &gt; Docs &gt; About
+                      </div>
+                    </WireBox>
+                    <WireBox className="p-3">
+                      <div className="text-xs mb-2" style={{ color: B }}>Pagination</div>
+                      <div className="text-sm" style={{ color: B }}>
+                        &lt; 1 2 <span className="font-bold" style={{ color: B }}>[3]</span> 4 5 &gt;
+                      </div>
+                    </WireBox>
+                  </div>
+                </div>
+              </div>
+
+              {/* Containers */}
+              <div>
+                <div
+                  className="text-xs font-bold uppercase tracking-widest mb-3"
+                  style={{ color: B }}
+                >
+                  Containers
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <WireCard title="Card Title">
+                    <p className="text-sm" style={{ color: B }}>
+                      Cards group related content with a header and body area.
+                    </p>
+                  </WireCard>
+
+                  <WireCard title="Dialog                                              ×">
+                    <p className="text-sm mb-3" style={{ color: B }}>
+                      Are you sure?
+                    </p>
+                    <div className="flex gap-2">
+                      <WireButton>Cancel</WireButton>
+                      <WireButton>OK</WireButton>
+                    </div>
+                  </WireCard>
+                </div>
+              </div>
+
+              {/* Table */}
+              <div>
+                <div
+                  className="text-xs font-bold uppercase tracking-widest mb-3"
+                  style={{ color: B }}
+                >
+                  Data
+                </div>
+                <WireTable
+                  columns={['Component', 'Type', 'Editable', 'Resizable']}
+                  rows={[
+                    ['Button', 'Form', '✓', '✓'],
+                    ['Card', 'Container', '✓', '✓'],
+                    ['Table', 'Data', '✓', '✓'],
+                    ['Nav Bar', 'Navigation', '✓', '✓'],
+                  ]}
+                />
+              </div>
+
+              <p className="text-xs" style={{ color: B }}>
+                + lines, arrows, freehand pencil, brush, spray, boxes,
+                placeholders, split panels, text blocks, and lists.
+              </p>
+            </div>
+          </WireCard>
+        </section>
+
+        {/* ── How it works ── */}
+        <WireCard title="How It Works">
+          <div className="grid md:grid-cols-3 gap-4">
+            <WireBox className="p-4" dashed>
+              <div className="text-lg font-bold mb-2" style={{ color: B }}>01</div>
+              <h3 className="text-sm font-bold mb-1" style={{ color: B }}>
+                Pick a component
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: B }}>
+                Button, card, table, modal — click the toolbar, drag onto the canvas.
+              </p>
+            </WireBox>
+            <WireBox className="p-4" dashed>
+              <div className="text-lg font-bold mb-2" style={{ color: B }}>02</div>
+              <h3 className="text-sm font-bold mb-1" style={{ color: B }}>
+                Edit inline
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: B }}>
+                Double-click any text to rewrite it. Components resize to fit your content.
+              </p>
+            </WireBox>
+            <WireBox className="p-4" dashed>
+              <div className="text-lg font-bold mb-2" style={{ color: B }}>03</div>
+              <h3 className="text-sm font-bold mb-1" style={{ color: B }}>
+                Copy as Markdown
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: B }}>
+                One click. Paste into GitHub, Notion, Slack, or a code comment. Done.
+              </p>
+            </WireBox>
+          </div>
+        </WireCard>
+
+        {/* ── Who ── */}
+        <WireCard title="Who Uses This">
+          <div className="grid md:grid-cols-2 gap-4">
+            <WireBox className="p-4">
+              <h3 className="text-sm font-bold mb-1" style={{ color: B }}>
+                Developers
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: B }}>
+                Sketch a login form in a code comment before writing the first line of JSX.
+              </p>
+            </WireBox>
+            <WireBox className="p-4">
+              <h3 className="text-sm font-bold mb-1" style={{ color: B }}>
+                Product Managers
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: B }}>
+                Show a layout idea in a Jira ticket — not next sprint, now.
+              </p>
+            </WireBox>
+            <WireBox className="p-4">
+              <h3 className="text-sm font-bold mb-1" style={{ color: B }}>
+                Designers
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: B }}>
+                Explore 5 layout options in 10 minutes before opening Figma.
+              </p>
+            </WireBox>
+            <WireBox className="p-4">
+              <h3 className="text-sm font-bold mb-1" style={{ color: B }}>
+                Technical Writers
+              </h3>
+              <p className="text-xs leading-relaxed" style={{ color: B }}>
+                Embed UI diagrams in docs that survive every format conversion.
+              </p>
+            </WireBox>
+          </div>
+        </WireCard>
+
+        {/* ── Author ── */}
+        <WireCard title="Made by">
+          <div className="flex items-start gap-4">
+            <div className="text-sm leading-relaxed" style={{ color: B }}>
+              <p>
+                <a
+                  href="https://x.com/bbssppllvv"
+                  className="font-bold hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Mike Bespalov
+                </a>
+                {' '}— Design + Code + AI.
+              </p>
+              <p className="mt-2">
+                Founder of{' '}
+                <a
+                  href="https://refero.design"
+                  className="font-bold hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Refero
+                </a>
+                {' '}(250K+ users). Ex-Clerk. Barcelona.
+              </p>
+            </div>
+          </div>
+        </WireCard>
+
+        {/* ── CTA ── */}
+        <WireCard title="Get Started">
+          <div className="text-center py-4 space-y-4">
+            <p className="text-sm" style={{ color: B }}>
+              Free. No account. No install. Works offline.
+            </p>
+            <div>
+              <a
+                href="/"
+                className="inline-block border-2 px-6 py-3 font-bold text-sm transition-colors hover:bg-[#2979FF] hover:text-white"
+                style={{ borderColor: B, color: B }}
+              >
+                [ Open the Editor → ]
+              </a>
+            </div>
+          </div>
+        </WireCard>
+      </div>
+
+      {/* ── Footer ── */}
+      <div className="border-t py-6 px-6 text-center" style={{ borderColor: B }}>
+        <p className="text-xs" style={{ color: B }}>
+          <a href="/" className="hover:underline" style={{ color: B }}>
+            Mockdown
+          </a>
+          {' · '}
+          Free ASCII wireframe editor
+          {' · '}
+          Your wireframes stay on your device
+        </p>
+      </div>
+    </main>
+  );
+}
